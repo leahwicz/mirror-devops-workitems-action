@@ -1,0 +1,12 @@
+description: 'Mirror Azure DevOps work items over to GitHub issues
+inputs:
+  area-path:  
+    description: 'The area path of work items to mirror'
+    required: true
+    default: '/'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'node12'
+  main: 'index.js'
