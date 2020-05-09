@@ -1,4 +1,4 @@
-description: 'Mirror Azure DevOps work items over to GitHub issues
+description: 'Mirror Azure DevOps work items over to GitHub issues'
 inputs:
   area-path:  
     description: 'The area path of work items to mirror'
