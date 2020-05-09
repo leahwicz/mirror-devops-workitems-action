@@ -11,16 +11,18 @@ async function getNodeApi() {
     return await connection.getWorkItemTrackingApi();
 }
 
-try {
-    // get the area path
-    const areaPath = core.getInput('area-path');
-    console.log(`Area path to look for work items under ${areaPath}`);
+async function run() {
+    try {
+        // get the area path
+        const areaPath = core.getInput('area-path');
+        console.log(`Area path to look for work items under ${areaPath}`);
 
-    const nodeApi = await getNodeApi();
-    const wiql = `SELECT System.ID from workitems where [System.AreaPath] = '${areaPath}' AND [System.State] = 'Active'`;
-    const items = await nodeApi.queryByWiql({query: wiql});
+        const nodeApi = await getNodeApi();
+        const wiql = `SELECT System.ID from workitems where [System.AreaPath] = '${areaPath}' AND [System.State] = 'Active'`;
+        const items = await nodeApi.queryByWiql({query: wiql});
 
 
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+    } catch (error) {
+        core.setFailed(error.message);
+    }
+}
