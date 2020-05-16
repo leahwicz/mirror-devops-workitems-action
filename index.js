@@ -16,7 +16,6 @@ async function getWorkItems(azpPAT, azpOrg, areaPath, workItemType, workItemStat
     const filterOnType = workItemType ? `[System.WorkItemType] = '${workItemType}' AND` : ``
     const escapedPath = areaPath.replace(/[\\"']/g, '\\$&')
     const wiql = `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.State] from workitems where ${filterOnType} [System.AreaPath] UNDER '${escapedPath}' AND [System.State] = '${workItemStatus}'`;
-    console.log(wiql)
 
     const result = await nodeApi.queryByWiql({query: wiql});
 
@@ -63,14 +62,13 @@ async function createIssues(octokit, existingIssues, workItems, labelForIssues, 
             const url = `${item.url}`.replace("_apis/wit/workItems", "_workitems/edit");
             const description = `Please look at work item ${item.id} that has been opened here:\n${url}`
 
+            // creating label array
             var labelArray = [];
             if (labelForIssues) {
                 labelForIssues.split(',').forEach(function (label) {
                     labelArray.push(label);
                 });
             }
-
-            console.log(labelArray)
 
             octokit.issues.create({
                 owner: github.context.repo.owner,
