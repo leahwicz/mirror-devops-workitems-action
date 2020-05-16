@@ -90,7 +90,7 @@ async function run()
         const octokit = new github.GitHub(githubPAT);
 
         const workItems = await getWorkItems(azpPAT, azpOrg, areaPath, workItemType);
-        if (workItems.length > 0) {
+        if (workItems && workItems.length > 0) {
             const existingIssues = await getExistingIssues(octokit, labelFilter, issuePrefix); 
             createIssues(octokit, existingIssues, workItems, labelForIssues, issuePrefix);
         } else {
