@@ -3,10 +3,27 @@ inputs:
   area-path:  
     description: 'The area path of work items to mirror'
     required: true
-    default: '/'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  repo-token:
+    description: 'The GITHUB_TOKEN secret'
+    required: true
+  ado-token:
+    description: 'The Azure DevOps token'
+    required: true
+  org-name:
+    description: 'Azure DevOps org name'
+    required: true
+  label-filter:
+    description: 'GitHub label to filter existing issues on'
+    required: false
+  labels-for-issues:
+    description: 'GitHub label to add to newly created issues'
+    required: false
+  work-item-type:
+    description: 'The Azure DevOps work item type to filter on'
+    required: false
+  issue-prefix:
+    description: 'The prefix to add to the newly created GitHub issues'
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'
