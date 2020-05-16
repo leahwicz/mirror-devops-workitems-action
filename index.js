@@ -38,7 +38,7 @@ async function getExistingIssues(octokit, labelFilter, issuePrefix) {
     const issuesAndPulls = await octokit.paginate(options);
 
     return issuesAndPulls.filter((value) => {
-        return !value.pull_request && value.title?.startsWith(issuePrefix);
+        return !value.pull_request && value.title.startsWith(issuePrefix);
     }).map(function(issue) { return issue.title; });
 }
 
