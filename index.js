@@ -62,8 +62,7 @@ async function createIssues(octokit, existingIssues, workItems, labelForIssues, 
             const title = `${prefix} ${item.id}] ${item.fields['System.Title']}`;
             const url = `${item.url}`.replace("_apis/wit/workItems", "_workitems/edit");
             const description = `Please look at work item ${item.id} that has been opened here:\n${url}`
-            console.log("Work item URL '" + description + "'" + title);
-
+            console.log(labelForIssues.split(','))
             octokit.issues.create({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
