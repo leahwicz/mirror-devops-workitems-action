@@ -9,15 +9,15 @@ async function getNodeApi(azpToken, azpOrg) {
     return await connection.getWorkItemTrackingApi();
 }
 
-async function getWorkItems(azpPAT, azpOrg, areaPath, workItemType) {
+async function getWorkItems(azpPAT, azpOrg, areaPath, workItemType, workItemStatus) {
     console.log('Getting existing Azure DevOps work items...');
     // query by WIQL to get work item ids that match criteria
     const nodeApi = await getNodeApi(azpPAT, azpOrg);
     const filterOnType = workItemType ? `[System.WorkItemType] = '${workItemType}' AND` : ``
     const escapedPath = areaPath.replace(/[\\"']/g, '\\$&')
-    const wiql = `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.State] from workitems where ${filterOnType} [System.AreaPath] UNDER '${escapedPath}' AND [System.State] = '5 - PG Engaged'`;
+    const wiql = `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.State] from workitems where ${filterOnType} [System.AreaPath] UNDER '${escapedPath}' AND [System.State] = '${workItemStatus}'`;
     console.log(wiql)
-    
+
     const result = await nodeApi.queryByWiql({query: wiql});
 
     const count = result['workItems'].length;
@@ -87,11 +87,12 @@ async function run()
         const labelForIssues = core.getInput('labels-for-issues', { required: false });
         const workItemType = core.getInput('work-item-type', { required: false });
         const issuePrefix = core.getInput('issue-prefix', { required: false });
+        const workItemStatus = core.getInput('work-item-status', { required: true });
 
         // create GitHub connection
         const octokit = new github.GitHub(githubPAT);
 
-        const workItems = await getWorkItems(azpPAT, azpOrg, areaPath, workItemType);
+        const workItems = await getWorkItems(azpPAT, azpOrg, areaPath, workItemType, workItemStatus);
         if (workItems && workItems.length > 0) {
             const existingIssues = await getExistingIssues(octokit, labelFilter, issuePrefix); 
             createIssues(octokit, existingIssues, workItems, labelForIssues, issuePrefix);

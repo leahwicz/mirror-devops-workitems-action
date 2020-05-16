@@ -21,6 +21,9 @@ inputs:
   work-item-type:
     description: 'The Azure DevOps work item type to filter on'
     required: false
+  work-item-status:
+    description: 'The Azure DevOps work item status to filter on'
+    required: true
   issue-prefix:
     description: 'The prefix to add to the newly created GitHub issues'
     required: false
