@@ -62,13 +62,22 @@ async function createIssues(octokit, existingIssues, workItems, labelForIssues, 
             const title = `${prefix} ${item.id}] ${item.fields['System.Title']}`;
             const url = `${item.url}`.replace("_apis/wit/workItems", "_workitems/edit");
             const description = `Please look at work item ${item.id} that has been opened here:\n${url}`
-            console.log(labelForIssues.split(','))
+
+            var labelArray = [];
+            if (labelForIssues) {
+                labelForIssues.split(',').forEach(function (label) {
+                    labelArray.push(label);
+                });
+            }
+
+            console.log(labelArray)
+
             octokit.issues.create({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
                 title: title,
                 body: description,
-                labels: labelForIssues.split(',')
+                labels: labelArray
             });
         }
     });
