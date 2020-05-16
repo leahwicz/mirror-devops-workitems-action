@@ -16,6 +16,8 @@ async function getWorkItems(azpPAT, azpOrg, areaPath, workItemType) {
     const filterOnType = workItemType ? `[System.WorkItemType] = '${workItemType}' AND` : ``
     const escapedPath = areaPath.replace(/[\\"']/g, '\\$&')
     const wiql = `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.State] from workitems where ${filterOnType} [System.AreaPath] UNDER '${escapedPath}' AND [System.State] = '5 - PG Engaged'`;
+    console.log(wiql)
+    
     const result = await nodeApi.queryByWiql({query: wiql});
 
     const count = result['workItems'].length;
