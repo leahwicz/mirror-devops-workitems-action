@@ -9,6 +9,8 @@ This workflow will query Azure DevOps looking for workitems that meet your crite
 # Future Features
 Coming soon - the option to copy the workitem contents to the GitHub issue and the close out the workitem in Azure DevOps.
 
+Please feel free to open an issue with more suggestions.
+
 ## Usage
 See [action.yml](action.yml) For comprehensive list of options.
 
